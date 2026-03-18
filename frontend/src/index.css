@@ -1,14 +1,19 @@
 @import "tailwindcss";
 
+
+
+
 @theme {
   --color-background: #ffffff;
-   --color-foreground: #2B2A2A;
+  --color-foreground: #2b2a2a;
 
-  --color-primary: #2FA4D7;
+  --color-primary: #2fa4d7;
   --color-primary-foreground: #ffffff;
 
-  --color-secondary: #4E8D9C;
-  --color-tertiary : #1A3263;
+  --color-secondary: #4e8d9c;
+  --color-tertiary: #213448;
+
+  --color-danger:#C00707 ;
 
   /* --color-muted: #252e37;
   --color-muted-foreground: #7a8491;
@@ -20,6 +25,29 @@
   --color-highlight: #f5a623;
   --color-surface: #1a2329; */
 }
+
+.bg-primary-gradient {
+  background: linear-gradient(
+    to right,
+    var(--color-primary),
+    var(--color-secondary)
+  );
+}
+
+.text-danger {
+  color: var(--color-danger) !important; 
+}
+
+.text-primary {
+  background: linear-gradient(to right, var(--color-primary), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text; /* for non-webkit browsers */
+  color: transparent;    /* fallback */
+}
+
+
+
 
 @layer base {
   html {
@@ -84,10 +112,7 @@
   }
 }
 
-
-
-    
- /* .container-custom {
+/* .container-custom {
   @apply mx-auto 
          px-10
          sm:px-6 
@@ -101,3 +126,10 @@
          xl:max-w-screen-2xl;
 
 } */
+
+/* clerk user button adjuest  */
+
+.cl-avatarBox{
+  width: 2.1rem;
+  height: 2.1rem;
+}
