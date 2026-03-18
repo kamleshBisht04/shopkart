@@ -4,10 +4,11 @@
   --color-background: #ffffff;
    --color-foreground: #2B2A2A;
 
-  --color-primary: #4263eb;
+  --color-primary: #2FA4D7;
   --color-primary-foreground: #ffffff;
 
-  --color-secondary: #63e6be;
+  --color-secondary: #4E8D9C;
+  --color-tertiary : #1A3263;
 
   /* --color-muted: #252e37;
   --color-muted-foreground: #7a8491;
