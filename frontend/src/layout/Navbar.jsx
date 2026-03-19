@@ -2,15 +2,24 @@ import logo from "@/assets/logo.png";
 import { MapPin, Search } from "lucide-react";
 import { FaCaretDown, FaShoppingCart } from "react-icons/fa";
 import { MdOutlineClose } from "react-icons/md";
-import { CgMenuLeft } from "react-icons/cg";
+import { CgClose, CgMenuLeft } from "react-icons/cg";
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import { Menu } from "@/const/const";
-import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/react";
+import { Show, SignInButton, UserButton } from "@clerk/react";
 
-const Navbar = () => {
+const Navbar = ({
+  location,
+  getLocation,
+  locationDropDown,
+  setLocationDropDown,
+}) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const location = false;
+
+  const toggleLocationDown = () => {
+    setLocationDropDown((prev) => !prev);
+  };
+
   return (
     <div className="relative z-50 bg-white shadow-md duration-200">
       {/* Upper Navbar */}
@@ -22,12 +31,50 @@ const Navbar = () => {
               <span className="text-danger ml-2 font-serif font-bold">Z</span>
               <span className="text-tertiary font-bold">aptro</span>
             </NavLink>
-            <div className="hidden cursor-pointer items-center gap-1 sm:flex">
+            {/* current location navigator */}
+            <div className="hidden cursor-pointer items-center gap-2 sm:flex">
               <MapPin className="text-danger" />
-              <span className="text-tertiary font-semibold">
-                {location ? <div></div> : "Add Address"}
-              </span>
-              <FaCaretDown size={18} />
+
+              {location ? (
+                <div className="text-tertiary mr-1 max-w-6xl leading-tight font-semibold">
+                  <p className="text-sm">{location.neighbourhood}</p>
+                  <p className="text-xs opacity-80">
+                    {location.city} {location.state},{location.postcode}
+                  </p>
+                </div>
+              ) : (
+                <span className="text-tertiary font-semibold">Add Address</span>
+              )}
+
+              <FaCaretDown
+                onClick={toggleLocationDown}
+                size={18}
+                className={`cursor-pointer transition-all duration-300 ease-in-out hover:scale-125 ${
+                  location ? "rotate-180 text-green-600" : "text-tertiary"
+                } `}
+              />
+            </div>
+            {/* navigation detect section */}
+            <div className="relative">
+              {locationDropDown && (
+                <div className="absolute top-14 -left-56 z-50 w-[250px] rounded-md border border-gray-200 bg-white p-4 shadow-lg">
+                  <div className="mb-3 flex items-center justify-between">
+                    <h1 className="text-md font-semibold">Change Location</h1>
+
+                    <CgClose
+                      onClick={toggleLocationDown}
+                      className="cursor-pointer text-gray-500 hover:text-red-500"
+                    />
+                  </div>
+
+                  <button
+                    onClick={getLocation}
+                    className="bg-danger hover:bg-primary w-full rounded-md px-3 py-1.5 text-sm text-white transition"
+                  >
+                    Detect my location
+                  </button>
+                </div>
+              )}
             </div>
           </div>
 
@@ -46,7 +93,7 @@ const Navbar = () => {
               <span className="hidden sm:block">Order</span>
               <div className="relative">
                 <FaShoppingCart className="relative text-lg" />
-                <span className="bg-background text-tertiary absolute -top-3 -right-8 rounded-full px-2 font-semibold">
+                <span className="bg-background text-tertiary absolute -top-3 -right-8 hidden rounded-full px-2 font-semibold">
                   0
                 </span>
               </div>
@@ -58,7 +105,7 @@ const Navbar = () => {
 
             <div className="hidden sm:block">
               <Show when="signed-out">
-                <SignInButton className="bg-danger font-semibold cursor-pointer rounded-md px-3 py-1 text-white" />
+                <SignInButton className="bg-danger cursor-pointer rounded-md px-3 py-1 font-semibold text-white" />
               </Show>
               <Show when="signed-in">
                 <UserButton />
@@ -87,7 +134,7 @@ const Navbar = () => {
               <NavLink
                 to={item.link}
                 className={({ isActive }) =>
-                  `text-md relative cursor-pointer pb-1 ${isActive ? "text-tertiary font-semibold" : "text-black"} after:bg-primary after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:transition-transform after:duration-300 after:content-[''] ${isActive ? "after:scale-x-100" : ""}`
+                  `text-md relative cursor-pointer pb-1 font-medium ${isActive ? "text-primary " : "text-black"} after:bg-primary after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:origin-left after:scale-x-0 after:transition-transform after:duration-300 after:content-[''] ${isActive ? "after:scale-x-100" : ""}`
                 }
               >
                 {item.name}
